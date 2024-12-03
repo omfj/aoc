@@ -23,6 +23,7 @@ fn main() {
         // Advent of Code 2024
         (2024, 1) => y2024::day01::Day01::new(input).run(),
         (2024, 2) => y2024::day02::Day02::new(input).run(),
+        (2024, 3) => y2024::day03::Day03::new(input).run(),
         // End of match
         _ => println!("No implementation for year {} day {}", year, day),
     }
