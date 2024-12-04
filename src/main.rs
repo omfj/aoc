@@ -5,6 +5,7 @@ use clap::Parser;
 
 pub mod utils;
 pub mod y2022;
+pub mod y2023;
 pub mod y2024;
 
 #[derive(Parser, Debug)]
@@ -27,6 +28,9 @@ fn main() {
         (2022, 2) => y2022::day02::Day02::new(input).run(),
         (2022, 3) => y2022::day03::Day03::new(input).run(),
         (2022, 4) => y2022::day04::Day04::new(input).run(),
+
+        // Advent of Code 2023
+        (2023, 1) => y2023::day01::Day01::new(input).run(),
 
         // Advent of Code 2024
         (2024, 1) => y2024::day01::Day01::new(input).run(),
