@@ -21,85 +21,87 @@ impl AdventDay for Day04 {
         for (i, row) in matrix.iter().enumerate() {
             for (j, _) in row.iter().enumerate() {
                 // Check forward
-                if j + 3 < row.len() {
-                    if row[j] == 'X' && row[j + 1] == 'M' && row[j + 2] == 'A' && row[j + 3] == 'S'
-                    {
-                        count += 1;
-                    }
+                if j + 3 < row.len()
+                    && row[j] == 'X'
+                    && row[j + 1] == 'M'
+                    && row[j + 2] == 'A'
+                    && row[j + 3] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check down
-                if i + 3 < matrix.len() {
-                    if matrix[i][j] == 'X'
-                        && matrix[i + 1][j] == 'M'
-                        && matrix[i + 2][j] == 'A'
-                        && matrix[i + 3][j] == 'S'
-                    {
-                        count += 1;
-                    }
+                if i + 3 < matrix.len()
+                    && matrix[i][j] == 'X'
+                    && matrix[i + 1][j] == 'M'
+                    && matrix[i + 2][j] == 'A'
+                    && matrix[i + 3][j] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check up
-                if i >= 3 {
-                    if matrix[i][j] == 'X'
-                        && matrix[i - 1][j] == 'M'
-                        && matrix[i - 2][j] == 'A'
-                        && matrix[i - 3][j] == 'S'
-                    {
-                        count += 1;
-                    }
+                if i >= 3
+                    && matrix[i][j] == 'X'
+                    && matrix[i - 1][j] == 'M'
+                    && matrix[i - 2][j] == 'A'
+                    && matrix[i - 3][j] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check backward
-                if j >= 3 {
-                    if row[j] == 'X' && row[j - 1] == 'M' && row[j - 2] == 'A' && row[j - 3] == 'S'
-                    {
-                        count += 1;
-                    }
+                if j >= 3
+                    && row[j] == 'X'
+                    && row[j - 1] == 'M'
+                    && row[j - 2] == 'A'
+                    && row[j - 3] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check diagonal down-right
-                if i + 3 < matrix.len() && j + 3 < row.len() {
-                    if matrix[i][j] == 'X'
-                        && matrix[i + 1][j + 1] == 'M'
-                        && matrix[i + 2][j + 2] == 'A'
-                        && matrix[i + 3][j + 3] == 'S'
-                    {
-                        count += 1;
-                    }
+                if i + 3 < matrix.len()
+                    && j + 3 < row.len()
+                    && matrix[i][j] == 'X'
+                    && matrix[i + 1][j + 1] == 'M'
+                    && matrix[i + 2][j + 2] == 'A'
+                    && matrix[i + 3][j + 3] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check diagonal down-left
-                if i + 3 < matrix.len() && j >= 3 {
-                    if matrix[i][j] == 'X'
-                        && matrix[i + 1][j - 1] == 'M'
-                        && matrix[i + 2][j - 2] == 'A'
-                        && matrix[i + 3][j - 3] == 'S'
-                    {
-                        count += 1;
-                    }
+                if i + 3 < matrix.len()
+                    && j >= 3
+                    && matrix[i][j] == 'X'
+                    && matrix[i + 1][j - 1] == 'M'
+                    && matrix[i + 2][j - 2] == 'A'
+                    && matrix[i + 3][j - 3] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check diagonal up-right
-                if i >= 3 && j + 3 < row.len() {
-                    if matrix[i][j] == 'X'
-                        && matrix[i - 1][j + 1] == 'M'
-                        && matrix[i - 2][j + 2] == 'A'
-                        && matrix[i - 3][j + 3] == 'S'
-                    {
-                        count += 1;
-                    }
+                if i >= 3
+                    && j + 3 < row.len()
+                    && matrix[i][j] == 'X'
+                    && matrix[i - 1][j + 1] == 'M'
+                    && matrix[i - 2][j + 2] == 'A'
+                    && matrix[i - 3][j + 3] == 'S'
+                {
+                    count += 1;
                 }
 
                 // Check diagonal up-left
-                if i >= 3 && j >= 3 {
-                    if matrix[i][j] == 'X'
-                        && matrix[i - 1][j - 1] == 'M'
-                        && matrix[i - 2][j - 2] == 'A'
-                        && matrix[i - 3][j - 3] == 'S'
-                    {
-                        count += 1;
-                    }
+                if i >= 3
+                    && j >= 3
+                    && matrix[i][j] == 'X'
+                    && matrix[i - 1][j - 1] == 'M'
+                    && matrix[i - 2][j - 2] == 'A'
+                    && matrix[i - 3][j - 3] == 'S'
+                {
+                    count += 1;
                 }
             }
         }

@@ -24,5 +24,5 @@ pub trait AdventDay {
 
 pub fn read_input(year: i32, day: i32) -> String {
     fs::read_to_string(format!("data/inputs/{}/day{:02}.input.txt", year, day))
-        .expect(format!("Could not read file for year {} day {}", year, day).as_str())
+        .unwrap_or_else(|_| panic!("Could not read file for year {} day {}", year, day))
 }

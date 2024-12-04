@@ -15,7 +15,7 @@ impl AdventDay for Day01 {
         self.input
             .lines()
             .map(|line| {
-                let nums = line.chars().filter(|c| c.is_digit(10)).collect_vec();
+                let nums = line.chars().filter(|c| c.is_ascii_digit()).collect_vec();
                 let first = nums.first().unwrap().to_digit(10).unwrap();
                 let last = nums.last().unwrap().to_digit(10).unwrap();
                 format!("{}{}", first, last).parse::<i32>().unwrap()
@@ -43,7 +43,10 @@ impl AdventDay for Day01 {
                 let new_line = numbers
                     .iter()
                     .fold(line.to_string(), |acc, (word, num)| acc.replace(word, num));
-                let nums = new_line.chars().filter(|c| c.is_digit(10)).collect_vec();
+                let nums = new_line
+                    .chars()
+                    .filter(|c| c.is_ascii_digit())
+                    .collect_vec();
                 let first = nums.first().unwrap().to_digit(10).unwrap();
                 let last = nums.last().unwrap().to_digit(10).unwrap();
                 println!("{}", new_line);

@@ -9,7 +9,7 @@ pub struct Day02 {
 }
 
 fn is_safe_rate_of_change(vec: Vec<i32>) -> bool {
-    let first = vec.get(0).expect("Expected element on index 0");
+    let first = vec.first().expect("Expected element on index 0");
     let second = vec.get(1).expect("Expected element on index 1");
     let ordering = first.cmp(second);
 
@@ -27,7 +27,7 @@ fn is_safe_rate_of_change(vec: Vec<i32>) -> bool {
         }
     }
 
-    return true;
+    true
 }
 
 fn vec_combinations(vec: Vec<i32>) -> Vec<Vec<i32>> {
@@ -118,30 +118,25 @@ mod tests {
 
     #[test]
     fn is_safe_rate_of_change_test() {
-        assert_eq!(
+        assert!(
             is_safe_rate_of_change(vec![1, 2, 3, 4, 5]),
-            true,
             "1, 2, 3, 4, 5"
         );
-        assert_eq!(is_safe_rate_of_change(vec![6, 4, 2, 1]), true, "6, 4, 2, 1");
-        assert_eq!(
-            is_safe_rate_of_change(vec![1, 2, 7, 8, 9]),
-            false,
+        assert!(is_safe_rate_of_change(vec![6, 4, 2, 1]), "6, 4, 2, 1");
+        assert!(
+            !is_safe_rate_of_change(vec![1, 2, 7, 8, 9]),
             "1, 2, 7, 8, 9"
         );
-        assert_eq!(
-            is_safe_rate_of_change(vec![9, 7, 6, 2, 1]),
-            false,
+        assert!(
+            !is_safe_rate_of_change(vec![9, 7, 6, 2, 1]),
             "9, 7, 6, 2, 1"
         );
-        assert_eq!(
-            is_safe_rate_of_change(vec![1, 3, 2, 4, 5]),
-            false,
+        assert!(
+            !is_safe_rate_of_change(vec![1, 3, 2, 4, 5]),
             "1, 3, 2, 4, 5"
         );
-        assert_eq!(
-            is_safe_rate_of_change(vec![8, 6, 4, 4, 1]),
-            false,
+        assert!(
+            !is_safe_rate_of_change(vec![8, 6, 4, 4, 1]),
             "8, 6, 4, 4, 1"
         );
     }
