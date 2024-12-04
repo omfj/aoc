@@ -1,8 +1,10 @@
 use crate::utils::read_input;
 use crate::utils::AdventDay;
+
 use clap::Parser;
 
 pub mod utils;
+pub mod y2022;
 pub mod y2024;
 
 #[derive(Parser, Debug)]
@@ -20,6 +22,10 @@ fn main() {
     let (year, day) = (args.year, args.day);
     let input = read_input(year, day);
     match (year, day) {
+        // Advent of Code 2022
+        (2022, 1) => y2022::day01::Day01::new(input).run(),
+        (2022, 2) => y2022::day02::Day02::new(input).run(),
+
         // Advent of Code 2024
         (2024, 1) => y2024::day01::Day01::new(input).run(),
         (2024, 2) => y2024::day02::Day02::new(input).run(),
