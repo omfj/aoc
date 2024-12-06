@@ -118,10 +118,7 @@ mod tests {
 
     #[test]
     fn is_safe_rate_of_change_test() {
-        assert!(
-            is_safe_rate_of_change(vec![1, 2, 3, 4, 5]),
-            "1, 2, 3, 4, 5"
-        );
+        assert!(is_safe_rate_of_change(vec![1, 2, 3, 4, 5]), "1, 2, 3, 4, 5");
         assert!(is_safe_rate_of_change(vec![6, 4, 2, 1]), "6, 4, 2, 1");
         assert!(
             !is_safe_rate_of_change(vec![1, 2, 7, 8, 9]),
