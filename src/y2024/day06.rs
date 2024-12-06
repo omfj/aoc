@@ -90,7 +90,7 @@ fn parse_map(input: &str) -> Vec<Vec<char>> {
         .collect_vec()
 }
 
-fn find_start(map: &Vec<Vec<char>>) -> (i32, i32) {
+fn find_start(map: &[Vec<char>]) -> (i32, i32) {
     for (i, row) in map.iter().enumerate() {
         for (j, cell) in row.iter().enumerate() {
             if *cell == '^' {

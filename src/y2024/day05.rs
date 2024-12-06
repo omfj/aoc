@@ -2,7 +2,7 @@ use crate::utils::AdventDay;
 use itertools::Itertools;
 use std::collections::HashMap;
 
-fn is_safe(rules: &HashMap<i32, Vec<i32>>, update: &Vec<i32>) -> bool {
+fn is_safe(rules: &HashMap<i32, Vec<i32>>, update: &[i32]) -> bool {
     for (i, value) in update.iter().enumerate() {
         if let Some(values) = rules.get(value) {
             if values.iter().any(|v| update[0..i].contains(v)) {
@@ -31,8 +31,8 @@ fn parse_rules(str: &str) -> HashMap<i32, Vec<i32>> {
     rules_map
 }
 
-fn fix_update(rules: &HashMap<i32, Vec<i32>>, update: &Vec<i32>) -> Vec<i32> {
-    let mut fixed = update.clone();
+fn fix_update(rules: &HashMap<i32, Vec<i32>>, update: &[i32]) -> Vec<i32> {
+    let mut fixed = update.to_owned();
 
     fixed.sort_by(|a, b| {
         let a_deps = rules.get(a).map(|v| v.as_slice()).unwrap_or(&[]);
@@ -76,7 +76,7 @@ impl AdventDay for Day05 {
 
         updates
             .iter()
-            .filter(|update| is_safe(&rules, &update))
+            .filter(|update| is_safe(&rules, update))
             .map(|update| update[update.len() / 2])
             .sum::<i32>()
             .to_string()
@@ -88,9 +88,9 @@ impl AdventDay for Day05 {
         let updates = parse_updates(updates_str);
         updates
             .iter()
-            .filter(|update| !is_safe(&rules, &update))
+            .filter(|update| !is_safe(&rules, update))
             .map(|update| {
-                let fixed = fix_update(&rules, &update);
+                let fixed = fix_update(&rules, update);
                 fixed[fixed.len() / 2]
             })
             .sum::<i32>()
