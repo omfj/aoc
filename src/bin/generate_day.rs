@@ -89,7 +89,8 @@ mod tests {{
     );
 
     let mut main_content = fs::read_to_string(main_file).expect("Failed to read main.rs");
-    let insertion_marker = "// End of match";
+    let insertion_marker =
+        "        _ => println!(\"No implementation for year {} day {}\", year, day),";
     if let Some(pos) = main_content.find(insertion_marker) {
         main_content.insert_str(pos, &format!("{}\n", new_match_arm));
         fs::write(main_file, main_content).expect("Failed to update main.rs");
