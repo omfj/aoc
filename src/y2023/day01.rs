@@ -49,7 +49,6 @@ impl AdventDay for Day01 {
                     .collect_vec();
                 let first = nums.first().unwrap().to_digit(10).unwrap();
                 let last = nums.last().unwrap().to_digit(10).unwrap();
-                println!("{}", new_line);
                 format!("{}{}", first, last).parse::<i32>().unwrap()
             })
             .sum::<i32>()
