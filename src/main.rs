@@ -31,6 +31,7 @@ fn main() {
 
         // Advent of Code 2023
         (2023, 1) => y2023::day01::Day01::new(input).run(),
+        (2023, 2) => y2023::day02::Day02::new(input).run(),
 
         // Advent of Code 2024
         (2024, 1) => y2024::day01::Day01::new(input).run(),
