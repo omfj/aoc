@@ -1,7 +1,7 @@
 use crate::utils::AdventDay;
 use std::collections::{HashMap, HashSet};
 
-fn collect_antennas(map: &Vec<Vec<char>>) -> Vec<(usize, usize, char)> {
+fn collect_antennas(map: &[Vec<char>]) -> Vec<(usize, usize, char)> {
     let mut antennas = Vec::new();
 
     for (y, row) in map.iter().enumerate() {
@@ -32,12 +32,12 @@ fn collect_antinodes(
         for i in 0..len {
             let (x1, y1) = positions[i];
 
-            for j in 0..len {
+            for (j, value) in positions.iter().enumerate().take(len) {
                 if i == j {
                     continue;
                 }
 
-                let (x2, y2) = positions[j];
+                let (x2, y2) = *value;
 
                 let dx = x2 as isize - x1 as isize;
                 let dy = y2 as isize - y1 as isize;
