@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use crate::utils::read_input;
 use crate::utils::AdventDay;
 
@@ -20,6 +22,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
+    let start_time = Instant::now();
     let (year, day) = (args.year, args.day);
     let input = read_input(year, day);
     match (year, day) {
@@ -42,6 +45,10 @@ fn main() {
         (2024, 6) => y2024::day06::Day06::new(input).run(),
         (2024, 7) => y2024::day07::Day07::new(input).run(),
         (2024, 8) => y2024::day08::Day08::new(input).run(),
+        (2024, 9) => y2024::day09::Day09::new(input).run(),
         _ => println!("No implementation for year {} day {}", year, day),
     }
+
+    let elapsed = start_time.elapsed();
+    println!("Elapsed time: {:.2?}", elapsed);
 }
