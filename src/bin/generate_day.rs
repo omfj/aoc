@@ -20,9 +20,7 @@ fn main() {
     let main_file = "src/main.rs";
 
     let day_template = format!(
-        r#"use itertools::Itertools;
-
-use crate::utils::AdventDay;
+        r#"use crate::utils::AdventDay;
 
 pub struct Day{:02} {{
     input: String,
