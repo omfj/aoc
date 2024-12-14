@@ -1,6 +1,6 @@
 use crate::utils::AdventDay;
 use itertools::Itertools;
-use std::collections::HashSet;
+// use std::collections::HashSet;
 
 #[derive(Debug, Clone, Copy)]
 struct Robot {
@@ -65,20 +65,25 @@ impl AdventDay for Day14 {
         let (max_width, max_height) = get_dimensions(&robots);
 
         let mut seconds = 0;
-        loop {
+        'outer: loop {
             seconds += 1;
 
-            let mut positions = HashSet::new();
+            // let positions = HashSet::new();
 
             for robot in robots.iter_mut() {
                 robot.next(max_width, max_height);
-                positions.insert(robot.p);
+                // positions.insert(robot.p);
             }
 
-            // All robots are in unique positions
-            if positions.len() == robots.len() {
-                // display_robots(&robots, max_width, max_height);
-                break;
+            // if positions.len() == robots.len() {
+            //     break;
+            // }
+
+            let str = grid_str(&robots, max_width, max_height);
+            for line in str.lines() {
+                if line.contains("########") {
+                    break 'outer;
+                }
             }
         }
 
@@ -154,16 +159,19 @@ fn collect_robots_in_quadrants(
     quadrants
 }
 
-#[allow(dead_code)]
-fn display_robots(robots: &[Robot], max_width: i32, max_height: i32) {
+fn grid_str(robots: &[Robot], max_width: i32, max_height: i32) -> String {
+    let mut grid = String::new();
+
     for y in 0..max_height {
         for x in 0..max_width {
             let is_robot = robots.iter().any(|r| r.p == (x, y));
             let char = if is_robot { '#' } else { '.' };
-            print!("{}", char);
+            grid.push(char);
         }
-        println!();
+        grid.push('\n');
     }
+
+    grid
 }
 
 #[cfg(test)]
