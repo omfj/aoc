@@ -103,7 +103,7 @@ impl AdventDay for Day13 {
 
         for machine in machines {
             let (a, b) = machine.cheapest_to_prize();
-            total += (a * 3) + (b * 1)
+            total += (a * 3) + b
         }
 
         total.to_string()
@@ -124,7 +124,7 @@ impl AdventDay for Day13 {
 
         for machine in machines {
             let (a, b) = machine.cheapest_to_prize();
-            total += (a * 3) + (b * 1)
+            total += (a * 3) + b
         }
 
         total.to_string()

@@ -1,6 +1,9 @@
 use crate::utils::AdventDay;
 use itertools::Itertools;
 
+type Game = Vec<Vec<char>>;
+type Moves = Vec<(i32, i32, i32)>;
+
 pub struct Day05 {
     input: String,
 }
@@ -39,31 +42,31 @@ impl AdventDay for Day05 {
     }
 }
 
-fn parse_data(input: &str) -> (Vec<Vec<char>>, Vec<(i32, i32, i32)>) {
+fn parse_data(input: &str) -> (Game, Moves) {
     let (game, moves) = input.split_once("\n\n").unwrap();
     let game = parse_game(game);
     let moves = parse_moves(moves);
     (game, moves)
 }
-fn parse_game(game: &str) -> Vec<Vec<char>> {
+fn parse_game(game: &str) -> Game {
     let lines: Vec<&str> = game.lines().collect();
     let last_line = lines.last().unwrap();
     let num_stacks = last_line.split_whitespace().count();
 
-    let mut stacks: Vec<Vec<char>> = vec![Vec::new(); num_stacks];
+    let mut stacks: Game = vec![Vec::new(); num_stacks];
 
     for &line in &lines[..lines.len() - 1] {
         if !line.contains('[') {
             continue;
         }
 
-        for i in 0..num_stacks {
+        for (i, stack) in stacks.iter_mut().enumerate().take(num_stacks) {
             let start = i * 4;
             if start + 3 <= line.len() {
                 let segment = &line[start..start + 3];
                 if segment.starts_with('[') && segment.ends_with(']') && segment.len() == 3 {
                     let c = segment.chars().nth(1).unwrap();
-                    stacks[i].push(c);
+                    stack.push(c);
                 }
             }
         }
@@ -74,7 +77,7 @@ fn parse_game(game: &str) -> Vec<Vec<char>> {
 
 /// Parse the moves from the input
 /// (count, from, to)
-fn parse_moves(moves: &str) -> Vec<(i32, i32, i32)> {
+fn parse_moves(moves: &str) -> Moves {
     moves
         .lines()
         .map(|line| {

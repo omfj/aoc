@@ -31,6 +31,7 @@ fn main() {
         (2022, 2) => y2022::day02::Day02::new(input).run(),
         (2022, 3) => y2022::day03::Day03::new(input).run(),
         (2022, 4) => y2022::day04::Day04::new(input).run(),
+        (2022, 5) => y2022::day05::Day05::new(input).run(),
 
         // Advent of Code 2023
         (2023, 1) => y2023::day01::Day01::new(input).run(),
@@ -50,7 +51,6 @@ fn main() {
         (2024, 11) => y2024::day11::Day11::new(input).run(),
         (2024, 12) => y2024::day12::Day12::new(input).run(),
         (2024, 13) => y2024::day13::Day13::new(input).run(),
-        (2022, 5) => y2022::day05::Day05::new(input).run(),
         (2024, 14) => y2024::day14::Day14::new(input).run(),
         _ => println!("No implementation for year {} day {}", year, day),
     }

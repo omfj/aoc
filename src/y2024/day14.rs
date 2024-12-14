@@ -54,7 +54,7 @@ impl AdventDay for Day14 {
         let quadrants = collect_robots_in_quadrants(&robots, max_width, max_height);
         let mut sum = 1;
         for quadrant in quadrants {
-            sum = sum * quadrant.len();
+            sum *= quadrant.len();
         }
 
         sum.to_string()
@@ -158,11 +158,11 @@ fn collect_robots_in_quadrants(
 fn display_robots(robots: &[Robot], max_width: i32, max_height: i32) {
     for y in 0..max_height {
         for x in 0..max_width {
-            let is_robot = robots.iter().find(|r| r.p == (x, y)).is_some();
+            let is_robot = robots.iter().any(|r| r.p == (x, y));
             let char = if is_robot { '#' } else { '.' };
             print!("{}", char);
         }
-        print!("\n");
+        println!();
     }
 }
 
