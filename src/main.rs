@@ -53,6 +53,7 @@ fn main() {
         (2024, 12) => y2024::day12::Day12::new(input).run(),
         (2024, 13) => y2024::day13::Day13::new(input).run(),
         (2024, 14) => y2024::day14::Day14::new(input).run(),
+        (2024, 15) => y2024::day15::Day15::new(input).run(),
         _ => println!("No implementation for year {} day {}", year, day),
     }
 
