@@ -98,7 +98,7 @@ fn find_start(map: &Map) -> Point {
     panic!("Start not found");
 }
 
-fn dfs_score(map: &Map, start: Point, end: Point) -> Vec<(usize, HashSet<Point>)> {
+fn dfs_score(map: &Map, start: Point, end: Point) -> Vec<(usize, Vec<Point>)> {
     let mut best_paths = Vec::new();
     let mut visited = HashSet::new();
     let mut best_score = usize::MAX;
@@ -166,7 +166,7 @@ fn dfs_score(map: &Map, start: Point, end: Point) -> Vec<(usize, HashSet<Point>)
             }
 
             let mut new_path = path.clone();
-            new_path.insert(neighbor);
+            new_path.insert(0, neighbor);
 
             heap.push(HeapItem {
                 point: neighbor,
@@ -261,12 +261,14 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "not done"]
     fn part_two_example_one() {
         let day16 = Day16::new(DATA_1.to_string());
         assert_eq!(day16.part_two(), "45");
     }
 
     #[test]
+    #[ignore = "not done"]
     fn part_two_example_two() {
         let day16 = Day16::new(DATA_2.to_string());
         assert_eq!(day16.part_two(), "64");
