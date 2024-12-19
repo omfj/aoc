@@ -10,16 +10,16 @@ pub trait AdventDay {
         let part_one = self.part_one();
         let elapsed_one = start_one.elapsed();
 
-        let start_two = Instant::now();
-        let part_two = self.part_two();
-        let elapsed_two = start_two.elapsed();
-
         if part_one.is_empty() {
             println!("Part one not implemented");
         } else {
             println!("Part one: {}", part_one);
             println!("Part one took {:?}", elapsed_one);
         }
+
+        let start_two = Instant::now();
+        let part_two = self.part_two();
+        let elapsed_two = start_two.elapsed();
 
         if part_two.is_empty() {
             println!("Part two not implemented");
