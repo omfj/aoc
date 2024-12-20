@@ -19,9 +19,9 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::parse();
-    let (year, day) = (args.year, args.day);
+    let Args { year, day } = Args::parse();
     let input = read_input(year, day);
+
     match (year, day) {
         // Advent of Code 2022
         (2022, 1) => y2022::day01::Day01::new(input).run(),
