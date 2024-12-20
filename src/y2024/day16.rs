@@ -1,7 +1,7 @@
 use crate::utils::AdventDay;
 use std::{
     cmp::Ordering,
-    collections::{BinaryHeap, HashSet},
+    collections::{BinaryHeap, HashMap, HashSet},
 };
 
 #[derive(PartialEq, Clone, Copy)]
@@ -12,28 +12,54 @@ enum Tile {
     Start,
 }
 
-#[derive(Eq, PartialEq, Hash, Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 enum Direction {
-    Vertical,
-    Horizontal,
+    Up,
+    Down,
+    Left,
+    Right,
 }
 
-#[derive(PartialEq, Eq, Clone)]
-struct HeapItem {
-    point: Point,
-    score: usize,
-    path: Vec<Point>,
-    prev_direction: Direction,
-}
+impl Direction {
+    fn all() -> &'static [Direction] {
+        &[
+            Direction::Up,
+            Direction::Down,
+            Direction::Left,
+            Direction::Right,
+        ]
+    }
 
-impl Ord for HeapItem {
-    fn cmp(&self, other: &Self) -> Ordering {
-        other.score.cmp(&self.score)
+    fn delta(self) -> (isize, isize) {
+        match self {
+            Direction::Up => (-1, 0),
+            Direction::Down => (1, 0),
+            Direction::Left => (0, -1),
+            Direction::Right => (0, 1),
+        }
     }
 }
 
-impl PartialOrd for HeapItem {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+struct State {
+    point: Point,
+    direction: Direction,
+}
+
+#[derive(Clone, Eq, PartialEq)]
+struct Node {
+    cost: u32,
+    state: State,
+}
+
+impl Ord for Node {
+    fn cmp(&self, other: &Node) -> Ordering {
+        other.cost.cmp(&self.cost)
+    }
+}
+
+impl PartialOrd for Node {
+    fn partial_cmp(&self, other: &Node) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
@@ -54,8 +80,8 @@ impl AdventDay for Day16 {
         let map = parse_input(&self.input);
         let start = find_start(&map);
         let reindeer = find_reindeer(&map);
-        let best_paths = dfs_score(&map, start, reindeer);
-        let (score, _) = best_paths.first().unwrap();
+
+        let (score, _) = all_best_paths(&map, start, Direction::Right, reindeer);
 
         score.to_string()
     }
@@ -64,10 +90,11 @@ impl AdventDay for Day16 {
         let map = parse_input(&self.input);
         let start = find_start(&map);
         let reindeer = find_reindeer(&map);
-        let best_paths = dfs_score(&map, start, reindeer);
+
+        let (_, best_paths) = all_best_paths(&map, start, Direction::Right, reindeer);
         let mut sitting_points = HashSet::new();
-        for (_, path) in best_paths {
-            for point in path {
+        for path in best_paths {
+            for (point, _) in path {
                 sitting_points.insert(point);
             }
         }
@@ -98,99 +125,9 @@ fn find_start(map: &Map) -> Point {
     panic!("Start not found");
 }
 
-fn dfs_score(map: &Map, start: Point, end: Point) -> Vec<(usize, Vec<Point>)> {
-    let mut best_paths = Vec::new();
-    let mut visited = HashSet::new();
-    let mut best_score = usize::MAX;
-
-    let mut heap = BinaryHeap::new();
-    heap.push(HeapItem {
-        point: start,
-        score: 0,
-        path: vec![start].into_iter().collect(),
-        prev_direction: Direction::Horizontal,
-    });
-
-    // let mut visited: HashMap<(Point, Point), u32> = HashMap::new();
-
-    // let mut covered_tiles: HashSet<Point> = HashSet::new();
-
-    // let mut min_score = u32::MAX;
-    // bfs_queue.push_back(Tile {
-    //     point: starting_point,
-    //     direction: RIGHT,
-    //     score: 0,
-    //     previous_points: vec![starting_point],
-    // });
-
-    while let Some(state) = heap.pop() {
-        let HeapItem {
-            point,
-            score,
-            path,
-            prev_direction,
-        } = state;
-
-        if point == end {
-            if score < best_score {
-                best_score = score;
-                best_paths.clear();
-                best_paths.push((score, path.clone()));
-            } else if score == best_score {
-                best_paths.push((score, path.clone()));
-            }
-            continue;
-        }
-
-        if !visited.insert((point, prev_direction)) {
-            continue;
-        }
-
-        let neighbors = [
-            (point.0 + 1, point.1),             // Right
-            (point.0.wrapping_sub(1), point.1), // Left
-            (point.0, point.1 + 1),             // Down
-            (point.0, point.1.wrapping_sub(1)), // Up
-        ];
-
-        for neighbor in neighbors {
-            if !is_valid_point(map, neighbor) {
-                continue;
-            }
-
-            let current_direction = determine_direction(point, neighbor);
-            let mut new_score = score + 1;
-
-            if prev_direction != current_direction {
-                new_score += 1000;
-            }
-
-            let mut new_path = path.clone();
-            new_path.insert(0, neighbor);
-
-            heap.push(HeapItem {
-                point: neighbor,
-                score: new_score,
-                path: new_path,
-                prev_direction: current_direction,
-            });
-        }
-    }
-
-    best_paths
-}
-
 fn is_valid_point(map: &Map, point: Point) -> bool {
     let (x, y) = point;
     y < map.len() && x < map[0].len() && map[y][x] != Tile::Wall
-}
-
-fn determine_direction(prev: Point, current: Point) -> Direction {
-    if prev.0 == current.0 {
-        Direction::Vertical
-    } else {
-        Direction::Horizontal
-    }
 }
 
 fn parse_input(input: &str) -> Map {
@@ -208,6 +145,140 @@ fn parse_input(input: &str) -> Map {
                 .collect()
         })
         .collect()
+}
+
+fn neighbors(map: &Map, (x, y): Point) -> Vec<(Point, Direction)> {
+    let mut result = Vec::new();
+    for &dir in Direction::all() {
+        let (dx, dy) = dir.delta();
+        let nx = x as isize + dx;
+        let ny = y as isize + dy;
+        if nx >= 0 && ny >= 0 {
+            let nx = nx as usize;
+            let ny = ny as usize;
+            if is_valid_point(map, (nx, ny)) {
+                result.push(((nx, ny), dir));
+            }
+        }
+    }
+    result
+}
+
+fn all_best_paths(
+    map: &Map,
+    start: Point,
+    start_direction: Direction,
+    end: Point,
+) -> (u32, Vec<Vec<(Point, Direction)>>) {
+    let mut dist: HashMap<State, u32> = HashMap::new();
+    let mut heap: BinaryHeap<Node> = BinaryHeap::new();
+    let mut predecessors: HashMap<State, Vec<State>> = HashMap::new();
+
+    let start_state = State {
+        point: start,
+        direction: start_direction,
+    };
+    dist.insert(start_state, 0);
+    heap.push(Node {
+        cost: 0,
+        state: start_state,
+    });
+
+    let mut minimal_end_cost: Option<u32> = None;
+    let mut end_states = Vec::new();
+
+    while let Some(Node { cost, state }) = heap.pop() {
+        if let Some(&current_dist) = dist.get(&state) {
+            if current_dist < cost {
+                continue;
+            }
+        }
+
+        if state.point == end {
+            if minimal_end_cost.is_none() || Some(cost) < minimal_end_cost {
+                minimal_end_cost = Some(cost);
+                end_states.clear();
+                end_states.push(state);
+            } else if Some(cost) == minimal_end_cost {
+                end_states.push(state);
+            }
+            continue;
+        }
+
+        for (npoint, ndir) in neighbors(map, state.point) {
+            let step_cost = if ndir == state.direction { 1 } else { 1001 };
+            let next_cost = cost + step_cost;
+            let next_state = State {
+                point: npoint,
+                direction: ndir,
+            };
+
+            if let Some(&d) = dist.get(&next_state) {
+                if next_cost < d {
+                    dist.insert(next_state, next_cost);
+                    predecessors.insert(next_state, vec![state]);
+                    heap.push(Node {
+                        cost: next_cost,
+                        state: next_state,
+                    });
+                } else if next_cost == d {
+                    if let Some(p) = predecessors.get_mut(&next_state) {
+                        p.push(state);
+                    } else {
+                        predecessors.insert(next_state, vec![state]);
+                    }
+                }
+            } else {
+                dist.insert(next_state, next_cost);
+                predecessors.insert(next_state, vec![state]);
+                heap.push(Node {
+                    cost: next_cost,
+                    state: next_state,
+                });
+            }
+        }
+    }
+
+    let Some(best_cost) = minimal_end_cost else {
+        return (u32::MAX, Vec::new());
+    };
+
+    let mut all_paths = Vec::new();
+    for es in &end_states {
+        let mut path_builder = vec![(es.point, es.direction)];
+        build_paths(
+            *es,
+            start_state,
+            &predecessors,
+            &mut path_builder,
+            &mut all_paths,
+        );
+    }
+
+    (best_cost, all_paths)
+}
+
+fn build_paths(
+    current: State,
+    start: State,
+    predecessors: &HashMap<State, Vec<State>>,
+    path_so_far: &mut Vec<(Point, Direction)>,
+    all_paths: &mut Vec<Vec<(Point, Direction)>>,
+) {
+    if current == start {
+        let mut full_path = path_so_far.clone();
+        full_path.reverse();
+        all_paths.push(full_path);
+        return;
+    }
+
+    if let Some(preds) = predecessors.get(&current) {
+        for &p in preds {
+            path_so_far.push((p.point, p.direction));
+            build_paths(p, start, predecessors, path_so_far, all_paths);
+            path_so_far.pop();
+        }
+    }
 }
 
 #[cfg(test)]
@@ -261,14 +332,12 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "not done"]
     fn part_two_example_one() {
         let day16 = Day16::new(DATA_1.to_string());
         assert_eq!(day16.part_two(), "45");
     }
 
     #[test]
-    #[ignore = "not done"]
     fn part_two_example_two() {
         let day16 = Day16::new(DATA_2.to_string());
         assert_eq!(day16.part_two(), "64");
