@@ -55,7 +55,7 @@ mod tests {{
     }}
 
     #[test]
-    #[ignore = "not implemented"]
+    #[ignore = "TODO: Implement me!"]
     fn part_two() {{
         let day{:02} = Day{:02}::new(DATA.to_string());
         assert_eq!(day{:02}.part_two(), "");
