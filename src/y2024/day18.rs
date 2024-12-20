@@ -34,9 +34,9 @@ fn find_shortest_path(grid: &Grid, is_test: bool) -> u32 {
             let new_y = y as i32 + dy;
 
             if new_x >= 0
-                && new_x < height_width as i32
+                && new_x < height_width
                 && new_y >= 0
-                && new_y < height_width as i32
+                && new_y < height_width
                 && grid[new_y as usize][new_x as usize] != "#"
             {
                 queue.push_back(((new_x as u32, new_y as u32), step_count + 1));

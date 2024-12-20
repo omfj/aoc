@@ -213,28 +213,33 @@ fn all_best_paths(
                 direction: ndir,
             };
 
-            if let Some(&d) = dist.get(&next_state) {
-                if next_cost < d {
+            match dist.get(&next_state) {
+                Some(&d) => match next_cost.cmp(&d) {
+                    Ordering::Less => {
+                        dist.insert(next_state, next_cost);
+                        predecessors.insert(next_state, vec![state]);
+                        heap.push(Node {
+                            cost: next_cost,
+                            state: next_state,
+                        });
+                    }
+                    Ordering::Equal => {
+                        if let Some(p) = predecessors.get_mut(&next_state) {
+                            p.push(state);
+                        } else {
+                            predecessors.insert(next_state, vec![state]);
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {
                     dist.insert(next_state, next_cost);
                     predecessors.insert(next_state, vec![state]);
                     heap.push(Node {
                         cost: next_cost,
                         state: next_state,
                     });
-                } else if next_cost == d {
-                    if let Some(p) = predecessors.get_mut(&next_state) {
-                        p.push(state);
-                    } else {
-                        predecessors.insert(next_state, vec![state]);
-                    }
                 }
-            } else {
-                dist.insert(next_state, next_cost);
-                predecessors.insert(next_state, vec![state]);
-                heap.push(Node {
-                    cost: next_cost,
-                    state: next_state,
-                });
             }
         }
     }

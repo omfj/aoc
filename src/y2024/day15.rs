@@ -126,16 +126,13 @@ impl Board {
     }
 
     fn try_push(&mut self, x: usize, y: usize, direction: &Direction) {
-        match self.push_moves(x, y, direction) {
-            Some(moves) => {
-                let moves = moves.into_iter().unique().collect::<Vec<_>>();
+        if let Some(moves) = self.push_moves(x, y, direction) {
+            let moves = moves.into_iter().unique().collect::<Vec<_>>();
 
-                for (x, y) in moves {
-                    let (nx, ny) = direction.next(x, y);
-                    (self.grid[y][x], self.grid[ny][nx]) = (self.grid[ny][nx], self.grid[y][x]);
-                }
+            for (x, y) in moves {
+                let (nx, ny) = direction.next(x, y);
+                (self.grid[y][x], self.grid[ny][nx]) = (self.grid[ny][nx], self.grid[y][x]);
             }
-            None => (),
         }
     }
 
@@ -153,7 +150,7 @@ impl Board {
         match (self.grid[ny][nx], connected, connected_new) {
             (Tile::Wall, _, _) => None,
             (_, _, Some((x, y))) if self.grid[y][x] == Tile::Wall => None,
-            (Tile::Empty, _, None) => return Some(vec![(x, y)]),
+            (Tile::Empty, _, None) => Some(vec![(x, y)]),
             (Tile::Empty, Some((cn, cy)), Some((cnx, cny)))
                 if self.grid[cny][cnx] == Tile::Empty =>
             {
@@ -205,12 +202,11 @@ fn parse_input(input: &str) -> (Grid, Vec<Direction>) {
 
     let directions = directions
         .lines()
-        .map(|line| {
+        .flat_map(|line| {
             line.chars()
                 .map(Direction::from)
                 .collect::<Vec<Direction>>()
         })
-        .flatten()
         .collect::<Vec<_>>();
 
     (grid, directions)

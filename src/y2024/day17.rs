@@ -83,7 +83,7 @@ impl AdventDay for Day17 {
     fn part_two(&self) -> String {
         let (_, program) = parse_data(&self.input);
 
-        let mut heap: BinaryHeap<Reverse<usize>> = BinaryHeap::new();
+        let mut heap = BinaryHeap::new();
 
         for i in 1..8 {
             heap.push(Reverse(i));
@@ -121,9 +121,8 @@ fn parse_registers(register: &str) -> usize {
     register.lines().for_each(|line| {
         let (register, value) = line.split_once(": ").unwrap();
         let value = value.parse::<usize>().unwrap();
-        match register {
-            "Register A" => a = value,
-            _ => {}
+        if register == "Register A" {
+            a = value
         }
     });
 
@@ -144,21 +143,27 @@ fn parse_instructions(program: &str) -> Vec<usize> {
 mod tests {
     use super::*;
 
-    const DATA: &str = r#"Register A: 729
+    const DATA_1: &str = r#"Register A: 729
 Register B: 0
 Register C: 0
 
 Program: 0,1,5,4,3,0"#;
 
+    const DATA_2: &str = r#"Register A: 2024
+Register B: 0
+Register C: 0
+
+Program: 0,3,5,4,3,0"#;
+
     #[test]
     fn part_one() {
-        let day17 = Day17::new(DATA.to_string());
+        let day17 = Day17::new(DATA_1.to_string());
         assert_eq!(day17.part_one(), "4,6,3,5,6,3,5,2,1,0");
     }
 
     #[test]
     fn part_two() {
-        let day17 = Day17::new(DATA.to_string());
+        let day17 = Day17::new(DATA_2.to_string());
         assert_eq!(day17.part_two(), "117440");
     }
 }

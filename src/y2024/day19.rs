@@ -54,8 +54,8 @@ fn count_valid_patterns<'a>(
 
     let mut num = 0;
     for &t in towels.iter() {
-        if s.starts_with(t) {
-            num += count_valid_patterns(cache, &s[t.len()..], towels);
+        if let Some(pattern) = s.strip_prefix(t) {
+            num += count_valid_patterns(cache, pattern, towels);
         }
     }
 
