@@ -38,6 +38,6 @@ mod tests {
     #[test]
     fn part_one() {
         let day04 = Day04::new("abcdef".to_string());
-        assert_eq!(day04.part_one(), "609043".to_string());
+        assert_eq!(day04.part_one(), "609043");
     }
 }
