@@ -1,4 +1,3 @@
-use std::fs;
 use std::time::Instant;
 
 pub trait AdventDay {
@@ -21,11 +20,4 @@ fn run_part(part: &str, f: impl FnOnce() -> String) {
     } else {
         println!("{}: {} ({:?})", part, output, elapsed);
     }
-}
-
-pub fn read_input(year: i32, day: i32) -> String {
-    fs::read_to_string(format!("data/inputs/{}/day{:02}.input.txt", year, day)).expect(&format!(
-        "Could not read file for year {} day {}",
-        year, day
-    ))
 }

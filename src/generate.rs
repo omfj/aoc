@@ -1,22 +1,9 @@
-use clap::Parser;
 use std::fs;
 use std::path::Path;
 
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-struct Args {
-    #[arg(short, long)]
-    year: i32,
-
-    #[arg(short, long)]
-    day: i32,
-}
-
-fn main() {
-    let args = Args::parse();
-
-    let day_file = format!("src/y{}/day{:02}.rs", args.year, args.day);
-    let mod_file = format!("src/y{}/mod.rs", args.year);
+pub fn generate(year: i32, day: i32) {
+    let day_file = format!("src/y{}/day{:02}.rs", year, day);
+    let mod_file = format!("src/y{}/mod.rs", year);
     let main_file = "src/main.rs";
 
     let day_template = format!(
@@ -62,7 +49,7 @@ mod tests {{
     }}
 }}
 "#,
-        args.day, args.day, args.day, args.day, args.day, args.day, args.day, args.day
+        day, day, day, day, day, day, day, day
     );
 
     if Path::new(&day_file).exists() {
@@ -70,11 +57,11 @@ mod tests {{
         return;
     }
 
-    fs::create_dir_all(format!("src/y{}", args.year)).expect("Failed to create year directory");
+    fs::create_dir_all(format!("src/y{}", year)).expect("Failed to create year directory");
     fs::write(&day_file, day_template).expect("Failed to write day file");
     println!("Created {}", day_file);
 
-    let mod_entry = format!("pub mod day{:02};", args.day);
+    let mod_entry = format!("pub mod day{:02};", day);
     let mut mod_content = fs::read_to_string(&mod_file).unwrap_or_else(|_| String::new());
     if !mod_content.contains(&mod_entry) {
         mod_content.push_str(&format!("{}\n", mod_entry));
@@ -84,7 +71,7 @@ mod tests {{
 
     let new_match_arm = format!(
         r#"        ({}, {}) => y{}::day{:02}::Day{:02}::new(input).run(),"#,
-        args.year, args.day, args.year, args.day, args.day
+        year, day, year, day, day
     );
 
     let mut main_content = fs::read_to_string(main_file).expect("Failed to read main.rs");
@@ -98,8 +85,5 @@ mod tests {{
         eprintln!("Could not find insertion marker in main.rs!");
     }
 
-    println!(
-        "Day {:02} setup complete! File created: {}",
-        args.day, day_file
-    );
+    println!("Day {:02} setup complete! File created: {}", day, day_file);
 }
