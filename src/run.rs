@@ -19,6 +19,7 @@ pub fn run(year: i32, day: i32) {
         (2015, 2) => y2015::day02::Day02::new(input).run(),
         (2015, 3) => y2015::day03::Day03::new(input).run(),
         (2015, 4) => y2015::day04::Day04::new(input).run(),
+        (2015, 5) => y2015::day05::Day05::new(input).run(),
 
         // Advent of Code 2022
         (2022, 1) => y2022::day01::Day01::new(input).run(),

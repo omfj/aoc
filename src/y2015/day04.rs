@@ -40,11 +40,4 @@ mod tests {
         let day04 = Day04::new("abcdef".to_string());
         assert_eq!(day04.part_one(), "609043".to_string());
     }
-
-    #[test]
-    #[ignore = "TODO: Implement me!"]
-    fn part_two() {
-        let day04 = Day04::new("".to_string());
-        assert_eq!(day04.part_two(), "");
-    }
 }
