@@ -79,6 +79,6 @@ mod tests {
     #[test]
     fn part_two() {
         let day05 = Day05::new(DATA.to_string());
-        assert_eq!(day05.part_two(), "");
+        assert_eq!(day05.part_two(), "0");
     }
 }
