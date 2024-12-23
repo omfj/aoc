@@ -4,7 +4,7 @@ use std::path::Path;
 pub fn generate(year: i32, day: i32) {
     let day_file = format!("src/y{}/day{:02}.rs", year, day);
     let mod_file = format!("src/y{}/mod.rs", year);
-    let main_file = "src/main.rs";
+    let run_file = "src/run.rs";
 
     let day_template = format!(
         r#"use crate::utils::AdventDay;
@@ -74,13 +74,13 @@ mod tests {{
         year, day, year, day, day
     );
 
-    let mut main_content = fs::read_to_string(main_file).expect("Failed to read main.rs");
+    let mut main_content = fs::read_to_string(run_file).expect("Failed to read main.rs");
     let insertion_marker =
         "        _ => println!(\"No implementation for year {} day {}\", year, day),";
     if let Some(pos) = main_content.find(insertion_marker) {
         main_content.insert_str(pos, &format!("{}\n", new_match_arm));
-        fs::write(main_file, main_content).expect("Failed to update main.rs");
-        println!("Updated {}", main_file);
+        fs::write(run_file, main_content).expect("Failed to update main.rs");
+        println!("Updated {}", run_file);
     } else {
         eprintln!("Could not find insertion marker in main.rs!");
     }

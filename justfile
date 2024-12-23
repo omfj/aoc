@@ -5,3 +5,7 @@ generate YEAR DAY:
 # Run a day
 run YEAR DAY:
     @cargo run --quiet --release -- run --year {{YEAR}} --day {{DAY}}
+
+# Run tests
+test:
+    @cargo test --release

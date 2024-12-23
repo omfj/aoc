@@ -1,4 +1,5 @@
 use crate::utils::AdventDay;
+use crate::y2015;
 use crate::y2022;
 use crate::y2023;
 use crate::y2024;
@@ -13,6 +14,10 @@ pub fn run(year: i32, day: i32) {
     let input = read_input(year, day);
 
     match (year, day) {
+        // Advent of Code 2015
+        (2015, 1) => y2015::day01::Day01::new(input).run(),
+        (2015, 2) => y2015::day02::Day02::new(input).run(),
+
         // Advent of Code 2022
         (2022, 1) => y2022::day01::Day01::new(input).run(),
         (2022, 2) => y2022::day02::Day02::new(input).run(),
