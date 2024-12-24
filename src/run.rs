@@ -60,6 +60,7 @@ pub fn run(year: i32, day: i32) {
         (2024, 23) => y2024::day23::Day23::new(input).run(),
         (2015, 7) => y2015::day07::Day07::new(input).run(),
         (2015, 8) => y2015::day08::Day08::new(input).run(),
+        (2024, 24) => y2024::day24::Day24::new(input).run(),
         _ => println!("No implementation for year {} day {}", year, day),
     }
 }
