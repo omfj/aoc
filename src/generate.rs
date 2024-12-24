@@ -19,13 +19,11 @@ impl AdventDay for Day{:02} {{
     }}
 
     fn part_one(&self) -> String {{
-        // Solve part 1 here
-        "".to_string()
+        todo!()
     }}
 
     fn part_two(&self) -> String {{
-        // Solve part 2 here
-        "".to_string()
+        todo!()
     }}
 }}
 
@@ -42,7 +40,7 @@ mod tests {{
     }}
 
     #[test]
-    #[ignore = "TODO: Implement me!"]
+    #[ignore]
     fn part_two() {{
         let day{:02} = Day{:02}::new(DATA.to_string());
         assert_eq!(day{:02}.part_two(), "");
