@@ -20,10 +20,10 @@ fn parse_schematics(s: &str) -> Scheme {
 
     let col_char = if is_lock { '#' } else { '.' };
 
-    for column in 0..5 {
+    for (column, item) in schematics.iter_mut().enumerate().take(5) {
         let col = lines.iter().map(|line| line.chars().nth(column).unwrap());
         let height = col.take_while(|c| *c == col_char).count() as u32;
-        schematics[column] = if is_lock { height - 1 } else { 6 - height };
+        *item = if is_lock { height - 1 } else { 6 - height };
     }
 
     let tuple = (
@@ -42,7 +42,7 @@ fn parse_schematics(s: &str) -> Scheme {
 }
 
 fn parse_input(input: &str) -> Vec<Scheme> {
-    input.split("\n\n").map(|s| parse_schematics(s)).collect()
+    input.split("\n\n").map(parse_schematics).collect()
 }
 
 fn key_fits_lock(key: Schematics, lock: Schematics) -> bool {

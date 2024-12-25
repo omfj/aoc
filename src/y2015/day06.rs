@@ -36,33 +36,33 @@ fn parse_instruction(s: &str) -> Instruction {
     }
 }
 
-fn apply_instruction(lights: &mut Vec<Vec<u8>>, instruction: Instruction) {
+fn apply_instruction(lights: &mut [Vec<u8>], instruction: Instruction) {
     match instruction {
         Instruction::TurnOn((x1, y1), (x2, y2)) => {
-            for x in x1..=x2 {
-                for y in y1..=y2 {
-                    lights[x][y] = lights[x][y].saturating_add(1);
+            for lights in lights.iter_mut().take(x2 + 1).skip(x1) {
+                for light in lights.iter_mut().take(y2 + 1).skip(y1) {
+                    *light = light.saturating_add(1);
                 }
             }
         }
         Instruction::TurnOff((x1, y1), (x2, y2)) => {
-            for x in x1..=x2 {
-                for y in y1..=y2 {
-                    lights[x][y] = lights[x][y].saturating_sub(1);
+            for lights in lights.iter_mut().take(x2 + 1).skip(x1) {
+                for light in lights.iter_mut().take(y2 + 1).skip(y1) {
+                    *light = light.saturating_sub(1);
                 }
             }
         }
         Instruction::Toggle((x1, y1), (x2, y2)) => {
-            for x in x1..=x2 {
-                for y in y1..=y2 {
-                    lights[x][y] = lights[x][y].saturating_add(2);
+            for lights in lights.iter_mut().take(x2 + 1).skip(x1) {
+                for light in lights.iter_mut().take(y2 + 1).skip(y1) {
+                    *light = light.saturating_add(2);
                 }
             }
         }
     }
 }
 
-fn apply_all_instructions(lights: &mut Vec<Vec<u8>>, instructions: &[Instruction]) {
+fn apply_all_instructions(lights: &mut [Vec<u8>], instructions: &[Instruction]) {
     for instruction in instructions {
         apply_instruction(lights, *instruction);
     }

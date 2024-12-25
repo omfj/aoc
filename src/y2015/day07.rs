@@ -3,12 +3,12 @@ use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
 enum Operation {
-    NOT(String, String),            // (value, variable)
-    ASSIGN(String, String),         // (value, variable)
-    AND(String, String, String),    // (left, right, variable)
-    OR(String, String, String),     // (left, right, variable)
-    RSHIFT(String, String, String), // (value, shift, variable)
-    LSHIFT(String, String, String), // (value, shift, variable)
+    Not(String, String),            // (value, variable)
+    Assign(String, String),         // (value, variable)
+    And(String, String, String),    // (left, right, variable)
+    Or(String, String, String),     // (left, right, variable)
+    Rshift(String, String, String), // (value, shift, variable)
+    Lshift(String, String, String), // (value, shift, variable)
 }
 
 struct Circuit {
@@ -18,7 +18,7 @@ struct Circuit {
 
 impl Circuit {
     fn new(input: &str) -> Self {
-        let operations = input.lines().map(|line| parse_line(line)).collect();
+        let operations = input.lines().map(parse_line).collect();
         Self {
             operations,
             variables: HashMap::new(),
@@ -38,7 +38,7 @@ impl Circuit {
             return Some(value);
         }
 
-        return None;
+        None
     }
 
     fn run_all(&mut self) {
@@ -67,42 +67,42 @@ impl Circuit {
 
     fn run_operation(&mut self, operation: &Operation) -> bool {
         match operation {
-            Operation::ASSIGN(value, variable) => {
+            Operation::Assign(value, variable) => {
                 if let Some(val) = self.get_value(value) {
                     self.variables.insert(variable.clone(), val);
                     return true;
                 }
                 false
             }
-            Operation::NOT(value, variable) => {
+            Operation::Not(value, variable) => {
                 if let Some(val) = self.get_value(value) {
                     self.variables.insert(variable.clone(), !val);
                     return true;
                 }
                 false
             }
-            Operation::AND(left, right, variable) => {
+            Operation::And(left, right, variable) => {
                 if let (Some(l), Some(r)) = (self.get_value(left), self.get_value(right)) {
                     self.variables.insert(variable.clone(), l & r);
                     return true;
                 }
                 false
             }
-            Operation::OR(left, right, variable) => {
+            Operation::Or(left, right, variable) => {
                 if let (Some(l), Some(r)) = (self.get_value(left), self.get_value(right)) {
                     self.variables.insert(variable.clone(), l | r);
                     return true;
                 }
                 false
             }
-            Operation::LSHIFT(value, shift, variable) => {
+            Operation::Lshift(value, shift, variable) => {
                 if let (Some(v), Some(s)) = (self.get_value(value), self.get_value(shift)) {
                     self.variables.insert(variable.clone(), v << s);
                     return true;
                 }
                 false
             }
-            Operation::RSHIFT(value, shift, variable) => {
+            Operation::Rshift(value, shift, variable) => {
                 if let (Some(v), Some(s)) = (self.get_value(value), self.get_value(shift)) {
                     self.variables.insert(variable.clone(), v >> s);
                     return true;
@@ -116,27 +116,27 @@ impl Circuit {
 fn parse_line(line: &str) -> Operation {
     let parts: Vec<&str> = line.split_whitespace().collect();
     match parts.len() {
-        3 => Operation::ASSIGN(parts[0].to_string(), parts[2].to_string()),
-        4 => Operation::NOT(parts[1].to_string(), parts[3].to_string()),
+        3 => Operation::Assign(parts[0].to_string(), parts[2].to_string()),
+        4 => Operation::Not(parts[1].to_string(), parts[3].to_string()),
         5 => {
             let operation = parts[1];
             match operation {
-                "AND" => Operation::AND(
+                "AND" => Operation::And(
                     parts[0].to_string(),
                     parts[2].to_string(),
                     parts[4].to_string(),
                 ),
-                "OR" => Operation::OR(
+                "OR" => Operation::Or(
                     parts[0].to_string(),
                     parts[2].to_string(),
                     parts[4].to_string(),
                 ),
-                "LSHIFT" => Operation::LSHIFT(
+                "LSHIFT" => Operation::Lshift(
                     parts[0].to_string(),
                     parts[2].to_string(),
                     parts[4].to_string(),
                 ),
-                "RSHIFT" => Operation::RSHIFT(
+                "RSHIFT" => Operation::Rshift(
                     parts[0].to_string(),
                     parts[2].to_string(),
                     parts[4].to_string(),
@@ -178,7 +178,7 @@ impl AdventDay for Day07 {
                 }
                 true
             })
-            .map(|line| parse_line(line))
+            .map(parse_line)
             .collect();
 
         let mut new_circuit = Circuit {

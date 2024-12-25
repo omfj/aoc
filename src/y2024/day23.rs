@@ -16,14 +16,8 @@ fn parse_input(input: &str) -> Vec<(String, String)> {
 fn collect_adjecency_list(connections: &[(String, String)]) -> HashMap<String, HashSet<String>> {
     let mut adj_list: HashMap<String, HashSet<String>> = HashMap::new();
     for (a, b) in connections {
-        adj_list
-            .entry(a.clone())
-            .or_insert_with(HashSet::new)
-            .insert(b.clone());
-        adj_list
-            .entry(b.clone())
-            .or_insert_with(HashSet::new)
-            .insert(a.clone());
+        adj_list.entry(a.clone()).or_default().insert(b.clone());
+        adj_list.entry(b.clone()).or_default().insert(a.clone());
     }
     adj_list
 }
@@ -110,7 +104,7 @@ fn find_largest_clique(connections: &[(String, String)]) -> Vec<String> {
         let non_neighbors: HashSet<String> = adj_list
             .get(&pivot)
             .map(|neighbors| p.difference(neighbors).cloned().collect())
-            .unwrap_or_else(HashSet::new);
+            .unwrap_or_default();
 
         for node in non_neighbors.clone() {
             r.push(node.clone());

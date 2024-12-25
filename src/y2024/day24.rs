@@ -5,9 +5,9 @@ use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
 enum Operation {
-    XOR(String, String, String), // (left, right, variable)
-    OR(String, String, String),  // (left, right, variable)
-    AND(String, String, String), // (left, right, variable)
+    Xor(String, String, String), // (left, right, variable)
+    Or(String, String, String),  // (left, right, variable)
+    And(String, String, String), // (left, right, variable)
 }
 
 fn extract_variables(input: &str) -> HashMap<String, usize> {
@@ -26,13 +26,13 @@ fn extract_operations(input: &str) -> Vec<Operation> {
         .map(
             |line| match line.split_whitespace().collect::<Vec<&str>>().as_slice() {
                 [left, "XOR", right, "->", variable] => {
-                    Operation::XOR(left.to_string(), right.to_string(), variable.to_string())
+                    Operation::Xor(left.to_string(), right.to_string(), variable.to_string())
                 }
                 [left, "OR", right, "->", variable] => {
-                    Operation::OR(left.to_string(), right.to_string(), variable.to_string())
+                    Operation::Or(left.to_string(), right.to_string(), variable.to_string())
                 }
                 [left, "AND", right, "->", variable] => {
-                    Operation::AND(left.to_string(), right.to_string(), variable.to_string())
+                    Operation::And(left.to_string(), right.to_string(), variable.to_string())
                 }
                 _ => panic!("Invalid instruction: {}", line),
             },
@@ -49,7 +49,7 @@ fn parse_input(input: &str) -> (HashMap<String, usize>, Vec<Operation>) {
 
 fn run_instruction(variables: &mut HashMap<String, usize>, operation: &Operation) -> bool {
     match operation {
-        Operation::XOR(left, right, variable) => {
+        Operation::Xor(left, right, variable) => {
             if let (Some(l), Some(r)) = (variables.get(left), variables.get(right)) {
                 let value = l ^ r;
                 variables.insert(variable.to_string(), value);
@@ -58,7 +58,7 @@ fn run_instruction(variables: &mut HashMap<String, usize>, operation: &Operation
                 false
             }
         }
-        Operation::OR(left, right, variable) => {
+        Operation::Or(left, right, variable) => {
             if let (Some(l), Some(r)) = (variables.get(left), variables.get(right)) {
                 let value = l | r;
                 variables.insert(variable.to_string(), value);
@@ -67,7 +67,7 @@ fn run_instruction(variables: &mut HashMap<String, usize>, operation: &Operation
                 false
             }
         }
-        Operation::AND(left, right, variable) => {
+        Operation::And(left, right, variable) => {
             if let (Some(l), Some(r)) = (variables.get(left), variables.get(right)) {
                 let value = l & r;
                 variables.insert(variable.to_string(), value);
