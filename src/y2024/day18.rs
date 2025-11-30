@@ -1,6 +1,6 @@
 use std::collections::{HashSet, VecDeque};
 
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 type Grid<'a> = [[&'a str; 71]; 71];
 

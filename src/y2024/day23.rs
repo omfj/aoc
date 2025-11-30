@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use std::collections::{HashMap, HashSet};
 
 fn parse_input(input: &str) -> Vec<(String, String)> {

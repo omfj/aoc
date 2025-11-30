@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 pub struct Day04 {
     input: String,

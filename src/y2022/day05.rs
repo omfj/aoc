@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use itertools::Itertools;
 
 type Game = Vec<Vec<char>>;

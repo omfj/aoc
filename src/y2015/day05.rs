@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 const VOWELS: [char; 5] = ['a', 'e', 'i', 'o', 'u'];
 const NAUGHTY_STRINGS: [&str; 4] = ["ab", "cd", "pq", "xy"];

@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 pub struct Day03 {
     input: String,

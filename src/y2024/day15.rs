@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use itertools::Itertools;
 
 type Grid = Vec<Vec<Tile>>;

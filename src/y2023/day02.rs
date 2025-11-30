@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 #[derive(Debug)]
 struct Game {

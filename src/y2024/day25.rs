@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use itertools::Itertools;
 
 type Schematics = (u32, u32, u32, u32, u32);

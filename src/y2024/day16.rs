@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use std::{
     cmp::Ordering,
     collections::{BinaryHeap, HashMap, HashSet},

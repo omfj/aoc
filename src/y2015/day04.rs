@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 fn find_hash(input: &str, prefix: &str) -> u64 {
     let mut i = 0;

@@ -1,14 +1,5 @@
-use crate::generate::generate;
-use crate::run::run;
+use aoc::Runner;
 use clap::{Parser, Subcommand};
-
-pub mod generate;
-pub mod run;
-pub mod utils;
-pub mod y2015;
-pub mod y2022;
-pub mod y2023;
-pub mod y2024;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -42,7 +33,7 @@ fn main() {
     let Args { command } = Args::parse();
 
     match command {
-        Commands::Run { year, day } => run(year, day),
-        Commands::Generate { year, day } => generate(year, day),
+        Commands::Run { year, day } => Runner::run(year, day),
+        Commands::Generate { year, day } => Runner::generate(year, day),
     }
 }

@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 fn parse_input(input: &str) -> Vec<(i32, i32, i32)> {
     input

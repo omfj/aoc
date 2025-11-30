@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use std::collections::{HashMap, HashSet};
 
 fn collect_antennas(map: &[Vec<char>]) -> Vec<(usize, usize, char)> {

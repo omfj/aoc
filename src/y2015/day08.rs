@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 fn count_data(s: &str) -> i32 {
     let mut count = 0;

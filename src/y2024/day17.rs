@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use core::panic;
 use std::{cmp::Reverse, collections::BinaryHeap};
 

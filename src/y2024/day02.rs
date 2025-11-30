@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 
 use itertools::Itertools;
 
-use crate::utils::AdventDay;
+use crate::AdventDay;
 
 pub struct Day02 {
     input: String,

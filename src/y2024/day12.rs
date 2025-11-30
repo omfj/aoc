@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use std::collections::HashSet;
 
 /// Get the perimeter of a region

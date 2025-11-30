@@ -1,4 +1,4 @@
-use crate::utils::AdventDay;
+use crate::AdventDay;
 use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
