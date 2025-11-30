@@ -82,11 +82,11 @@ impl Runner {
         let day_template = format!(
             r##"use crate::AdventDay;
 
-pub struct Day{:02} {{
+pub struct Day{day:02} {{
     input: String,
 }}
 
-impl AdventDay for Day{:02} {{
+impl AdventDay for Day{day:02} {{
     fn new(input: String) -> Self {{
         Self {{ input }}
     }}
@@ -108,19 +108,18 @@ mod tests {{
 
     #[test]
     fn part_one() {{
-        let day{:02} = Day{:02}::new(DATA.to_string());
-        assert_eq!(day{:02}.part_one(), "");
+        let day{day:02} = Day{day:02}::new(DATA.to_string());
+        assert_eq!(day{day:02}.part_one(), "");
     }}
 
     #[test]
     #[ignore]
     fn part_two() {{
-        let day{:02} = Day{:02}::new(DATA.to_string());
-        assert_eq!(day{:02}.part_two(), "");
+        let day{day:02} = Day{day:02}::new(DATA.to_string());
+        assert_eq!(day{day:02}.part_two(), "");
     }}
 }}
 "##,
-            day, day, day, day, day, day, day, day
         );
 
         if std::path::Path::new(&day_file).exists() {
