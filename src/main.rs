@@ -30,9 +30,9 @@ enum Commands {
 }
 
 fn main() {
-    let Args { command } = Args::parse();
+    let cli = Args::parse();
 
-    match command {
+    match cli.command {
         Commands::Run { year, day } => Runner::run(year, day),
         Commands::Generate { year, day } => Runner::generate(year, day),
     }

@@ -80,7 +80,7 @@ impl Runner {
         let run_file = "src/run.rs";
 
         let day_template = format!(
-            r#"use crate::AdventDay;
+            r##"use crate::AdventDay;
 
 pub struct Day{:02} {{
     input: String,
@@ -104,7 +104,7 @@ impl AdventDay for Day{:02} {{
 mod tests {{
     use super::*;
 
-    const DATA: &str = "";
+    const DATA: &str = r#""#;
 
     #[test]
     fn part_one() {{
@@ -119,7 +119,7 @@ mod tests {{
         assert_eq!(day{:02}.part_two(), "");
     }}
 }}
-"#,
+"##,
             day, day, day, day, day, day, day, day
         );
 

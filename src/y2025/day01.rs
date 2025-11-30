@@ -22,7 +22,7 @@ impl AdventDay for Day01 {
 mod tests {
     use super::*;
 
-    const DATA: &str = "";
+    const DATA: &str = r#""#;
 
     #[test]
     fn part_one() {
