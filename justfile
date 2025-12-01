@@ -9,3 +9,7 @@ run YEAR DAY:
 # Run tests
 test:
     @cargo test --release
+
+# Fetch the input for a day
+fetch YEAR DAY:
+    @cargo run --quiet -- fetch --year {{YEAR}} --day {{DAY}}

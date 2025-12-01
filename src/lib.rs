@@ -155,6 +155,58 @@ mod tests {{
 
         println!("Day {:02} setup complete! File created: {}", day, day_file);
     }
+
+    pub fn fetch_input(year: i32, day: i32) {
+        let session_token = std::env::var("SESSION_TOKEN")
+            .unwrap_or_default()
+            .trim()
+            .to_string();
+        if session_token.is_empty() || session_token.len() != 128 {
+            eprintln!("SESSION_TOKEN environment variable is not set or is invalid format.");
+            return;
+        }
+
+        let url = format!("https://adventofcode.com/{year}/day/{day}/input");
+
+        let cookie_header =
+            reqwest::header::HeaderValue::from_str(&format!("session={}", session_token))
+                .expect("Invalid session cookie");
+        let user_agent_header =
+            reqwest::header::HeaderValue::from_str("aoc (github.com/omfj/aoc)").unwrap();
+
+        let mut headers = reqwest::header::HeaderMap::new();
+        headers.insert(reqwest::header::COOKIE, cookie_header);
+        headers.insert(reqwest::header::USER_AGENT, user_agent_header);
+
+        let client = reqwest::blocking::Client::builder()
+            .default_headers(headers)
+            .redirect(reqwest::redirect::Policy::none())
+            .build()
+            .unwrap();
+
+        let response = client.get(&url).send().expect("Failed to send request");
+
+        if !response.status().is_success() {
+            eprintln!("Failed to fetch input: HTTP {}", response.status());
+            return;
+        }
+
+        let input = response.text().expect("Failed to parse text");
+
+        if input.contains("Puzzle inputs differ by user.") {
+            eprintln!("Failed to fetch input: Invalid session token or access denied.");
+            return;
+        }
+
+        let input_path = format!("data/inputs/{}/day{:02}.input.txt", year, day);
+        std::fs::create_dir_all(format!("data/inputs/{}", year))
+            .expect("Failed to create input directory");
+        std::fs::write(&input_path, input).expect("Failed to write input file");
+        println!(
+            "Input for year {} day {} saved to {}",
+            year, day, input_path
+        );
+    }
 }
 
 pub trait AdventDay {

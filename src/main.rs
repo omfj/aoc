@@ -10,7 +10,7 @@ struct Args {
 
 #[derive(Subcommand, Clone)]
 enum Commands {
-    /// run a day
+    /// Run a day
     Run {
         #[arg(short, long)]
         year: i32,
@@ -19,8 +19,18 @@ enum Commands {
         day: i32,
     },
 
-    /// generates a new day
+    /// Generates a new day
     Generate {
+        #[arg(short, long)]
+        year: i32,
+
+        #[arg(short, long)]
+        day: i32,
+    },
+
+    /// Fetch the input for a day
+    /// Requires SESSION_TOKEN env variable to be set
+    Fetch {
         #[arg(short, long)]
         year: i32,
 
@@ -30,10 +40,12 @@ enum Commands {
 }
 
 fn main() {
+    dotenvy::dotenv().ok();
     let cli = Args::parse();
 
     match cli.command {
         Commands::Run { year, day } => Runner::run(year, day),
         Commands::Generate { year, day } => Runner::generate(year, day),
+        Commands::Fetch { year, day } => Runner::fetch_input(year, day),
     }
 }
