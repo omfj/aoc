@@ -26,6 +26,7 @@ impl AdventDay for Day01 {
         Self { input }
     }
 
+    // Count zeros landed on after each whole movement
     fn part_one(&self) -> String {
         let inputs = self.parse_input();
 
@@ -54,6 +55,7 @@ impl AdventDay for Day01 {
         zeros.to_string()
     }
 
+    // Count zeros crossed during the movement
     fn part_two(&self) -> String {
         let inputs = self.parse_input();
 
