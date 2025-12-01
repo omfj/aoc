@@ -90,9 +90,8 @@ impl AdventDay for Day01 {
 impl Day01 {
     fn parse_input(&self) -> Vec<DialInput> {
         self.input
-            .trim()
             .split_whitespace()
-            .map(|s| DialInput::from(s))
+            .map(DialInput::from)
             .collect()
     }
 }

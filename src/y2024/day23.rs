@@ -55,7 +55,7 @@ fn collect_sets_of(connections: &[(String, String)], size: usize) -> Vec<Vec<Str
             let is_connected = current_clique.iter().all(|existing_node| {
                 adj_list
                     .get(existing_node)
-                    .map_or(false, |neighbors| neighbors.contains(node))
+                    .is_some_and(|neighbors| neighbors.contains(node))
             });
 
             if is_connected {

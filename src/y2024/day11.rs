@@ -8,7 +8,7 @@ enum BlinkResult {
 }
 
 fn has_even_digits(n: usize) -> bool {
-    n.to_string().len() % 2 == 0
+    n.to_string().len().is_multiple_of(2)
 }
 
 fn split_number(n: usize) -> (usize, usize) {
