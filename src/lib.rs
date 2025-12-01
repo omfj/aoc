@@ -1,5 +1,3 @@
-use std::fs;
-
 pub mod y2015;
 pub mod y2022;
 pub mod y2023;
@@ -7,7 +5,7 @@ pub mod y2024;
 pub mod y2025;
 
 pub fn read_input(year: i32, day: i32) -> String {
-    fs::read_to_string(format!("data/inputs/{}/day{:02}.input.txt", year, day))
+    std::fs::read_to_string(format!("data/inputs/{}/day{:02}.input.txt", year, day))
         .unwrap_or_else(|_| panic!("Could not read file for year {} day {}", year, day))
 }
 
@@ -127,15 +125,15 @@ mod tests {{
             return;
         }
 
-        fs::create_dir_all(format!("src/y{}", year)).expect("Failed to create year directory");
-        fs::write(&day_file, day_template).expect("Failed to write day file");
+        std::fs::create_dir_all(format!("src/y{}", year)).expect("Failed to create year directory");
+        std::fs::write(&day_file, day_template).expect("Failed to write day file");
         println!("Created {}", day_file);
 
         let mod_entry = format!("pub mod day{:02};", day);
-        let mut mod_content = fs::read_to_string(&mod_file).unwrap_or_else(|_| String::new());
+        let mut mod_content = std::fs::read_to_string(&mod_file).unwrap_or_else(|_| String::new());
         if !mod_content.contains(&mod_entry) {
             mod_content.push_str(&format!("{}\n", mod_entry));
-            fs::write(&mod_file, mod_content).expect("Failed to update mod.rs");
+            std::fs::write(&mod_file, mod_content).expect("Failed to update mod.rs");
             println!("Updated {}", mod_file);
         }
 
@@ -144,12 +142,12 @@ mod tests {{
             year, day, year, day, day
         );
 
-        let mut main_content = fs::read_to_string(run_file).expect("Failed to read main.rs");
+        let mut main_content = std::fs::read_to_string(run_file).expect("Failed to read main.rs");
         let insertion_marker =
             "        _ => println!(\"No implementation for year {} day {}\", year, day),";
         if let Some(pos) = main_content.find(insertion_marker) {
             main_content.insert_str(pos, &format!("{}\n", new_match_arm));
-            fs::write(run_file, main_content).expect("Failed to update main.rs");
+            std::fs::write(run_file, main_content).expect("Failed to update main.rs");
             println!("Updated {}", run_file);
         } else {
             eprintln!("Could not find insertion marker in main.rs!");
