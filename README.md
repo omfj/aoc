@@ -4,20 +4,20 @@ This repository contains my solutions to the [Advent of Code](https://adventofco
 
 ## Setup
 
-Add your inputs to the with the following naming convention:
+Add the inputs with the following naming convention:
 
 ```
-data/inputs/<year>/day<day:2>.input.txt # 1 - 9 should be padded with a 0
+data/inputs/<year>/day<day:2>.input.txt # ":2" meaning that 1 - 9 should be padded with a 0
 ```
 
 ## How to run
 
 ```
-cargo run --bin aoc -- --year <year> --day <day>
+just run <year> <day>
 ```
 
 ## Testing
 
 ```
-cargo test
+just test
 ```
