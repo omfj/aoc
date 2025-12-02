@@ -67,7 +67,7 @@ impl Runner {
 
             // Advent of Code 2025
             (2025, 1) => y2025::day01::Day01::new(input).run(),
-
+            (2025, 2) => y2025::day02::Day02::new(input).run(),
             _ => println!("No implementation for year {} day {}", year, day),
         }
     }
@@ -75,7 +75,7 @@ impl Runner {
     pub fn generate(year: i32, day: i32) {
         let day_file = format!("src/y{}/day{:02}.rs", year, day);
         let mod_file = format!("src/y{}/mod.rs", year);
-        let run_file = "src/run.rs";
+        let lib_file = "src/lib.rs";
 
         let day_template = format!(
             r##"use crate::AdventDay;
@@ -142,15 +142,15 @@ mod tests {{
             year, day, year, day, day
         );
 
-        let mut main_content = std::fs::read_to_string(run_file).expect("Failed to read main.rs");
+        let mut lib_content = std::fs::read_to_string(lib_file).expect("Failed to read lib.rs");
         let insertion_marker =
             "        _ => println!(\"No implementation for year {} day {}\", year, day),";
-        if let Some(pos) = main_content.find(insertion_marker) {
-            main_content.insert_str(pos, &format!("{}\n", new_match_arm));
-            std::fs::write(run_file, main_content).expect("Failed to update main.rs");
-            println!("Updated {}", run_file);
+        if let Some(pos) = lib_content.find(insertion_marker) {
+            lib_content.insert_str(pos, &format!("{}\n", new_match_arm));
+            std::fs::write(lib_file, lib_content).expect("Failed to update lib.rs");
+            println!("Updated {}", lib_file);
         } else {
-            eprintln!("Could not find insertion marker in main.rs!");
+            eprintln!("Could not find insertion marker in lib.rs!");
         }
 
         println!("Day {:02} setup complete! File created: {}", day, day_file);
