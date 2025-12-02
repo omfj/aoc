@@ -16,6 +16,12 @@ data/inputs/<year>/day<day:2>.input.txt # ":2" meaning that 1 - 9 should be padd
 just run <year> <day>
 ```
 
+## Fetch input
+
+```
+just fetch <year:> <day>
+```
+
 ## Testing
 
 ```
