@@ -1,14 +1,14 @@
 use crate::AdventDay;
 
 enum DialInput {
-    Right(u32),
-    Left(u32),
+    Right(isize),
+    Left(isize),
 }
 
 impl From<&str> for DialInput {
     fn from(s: &str) -> Self {
         let (dir, dist) = s.split_at(1);
-        let distance: u32 = dist.parse().unwrap();
+        let distance: isize = dist.parse().unwrap();
         match dir {
             "R" => DialInput::Right(distance),
             "L" => DialInput::Left(distance),
@@ -30,20 +30,16 @@ impl AdventDay for Day01 {
     fn part_one(&self) -> String {
         let inputs = self.parse_input();
 
-        let mut dial = 50;
+        let mut dial: isize = 50;
         let mut zeros = 0;
 
         for inp in inputs {
             match inp {
-                DialInput::Right(dist) => {
-                    for _ in 0..dist {
-                        dial = (dial + 1) % 100;
-                    }
-                }
                 DialInput::Left(dist) => {
-                    for _ in 0..dist {
-                        dial = (dial + 99) % 100;
-                    }
+                    dial = (dial - dist).rem_euclid(100);
+                }
+                DialInput::Right(dist) => {
+                    dial = (dial + dist).rem_euclid(100);
                 }
             }
 
