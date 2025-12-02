@@ -42,7 +42,7 @@ impl Id {
     // - The first half matches the second half
     fn is_invalid_part_one(&self) -> bool {
         let str = self.0.to_string();
-        if str.len() % 2 != 0 {
+        if !str.len().is_multiple_of(2) {
             return false;
         }
         str.split_at(str.len() / 2).0 == str.split_at(str.len() / 2).1
@@ -66,7 +66,7 @@ impl Id {
 }
 
 fn parse_input(input: &str) -> Vec<IdRange> {
-    input.trim().split(',').map(|s| IdRange::from(s)).collect()
+    input.trim().split(',').map(IdRange::from).collect()
 }
 
 pub struct Day02 {
