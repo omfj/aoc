@@ -68,6 +68,7 @@ impl Runner {
             // Advent of Code 2025
             (2025, 1) => y2025::day01::Day01::new(input).run(),
             (2025, 2) => y2025::day02::Day02::new(input).run(),
+            (2025, 3) => y2025::day03::Day03::new(input).run(),
             _ => println!("No implementation for year {} day {}", year, day),
         }
     }
