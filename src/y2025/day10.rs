@@ -7,10 +7,12 @@ pub struct Day10 {
     input: String,
 }
 
+type Machine = (Vec<char>, Vec<Vec<usize>>, Vec<usize>);
+
 // 0: indicator light diagram - lisf of # and ., where # is on and . is off
 // 1: wiring schemantic - list of positions to toggle
 // 2: joltage requirements
-fn parse_input(input: &str) -> Vec<(Vec<char>, Vec<Vec<usize>>, Vec<usize>)> {
+fn parse_input(input: &str) -> Vec<Machine> {
     input
         .lines()
         .map(|line| {
@@ -106,12 +108,10 @@ impl AdventDay for Day10 {
             let ctx = Context::new(&cfg);
             let opt = Optimize::new(&ctx);
 
-            // create var for each button press count
             let button_vars: Vec<Int> = (0..buttons.len())
                 .map(|i| Int::new_const(&ctx, format!("button_{}", i)))
                 .collect();
 
-            // add constraints that button press counts
             for var in button_vars.iter() {
                 opt.assert(&var.ge(&Int::from_i64(&ctx, 0)));
             }
@@ -136,7 +136,7 @@ impl AdventDay for Day10 {
             let total_presses = Int::add(&ctx, &button_refs);
             opt.minimize(&total_presses);
 
-            // solve and add to sum
+            // solve
             if opt.check(&[]) == SatResult::Sat {
                 if let Some(model) = opt.get_model() {
                     if let Some(result) = model.eval(&total_presses, true) {
