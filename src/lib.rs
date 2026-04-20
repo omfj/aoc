@@ -77,6 +77,7 @@ impl Runner {
             (2025, 9) => y2025::day09::Day09::new(input).run(),
             (2025, 10) => y2025::day10::Day10::new(input).run(),
             (2025, 11) => y2025::day11::Day11::new(input).run(),
+            (2025, 12) => y2025::day12::Day12::new(input).run(),
             _ => println!("No implementation for year {} day {}", year, day),
         }
     }
